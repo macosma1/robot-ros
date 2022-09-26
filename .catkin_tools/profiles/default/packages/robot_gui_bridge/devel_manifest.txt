@@ -1,0 +1,5 @@
+robot_gui_bridge
+/home/macosma1/catkin_ws/devel/.private/robot_gui_bridge/cmake.lock /home/macosma1/catkin_ws/devel/./cmake.lock
+/home/macosma1/catkin_ws/devel/.private/robot_gui_bridge/share/robot_gui_bridge/cmake/robot_gui_bridgeConfig.cmake /home/macosma1/catkin_ws/devel/share/robot_gui_bridge/cmake/robot_gui_bridgeConfig.cmake
+/home/macosma1/catkin_ws/devel/.private/robot_gui_bridge/share/robot_gui_bridge/cmake/robot_gui_bridgeConfig-version.cmake /home/macosma1/catkin_ws/devel/share/robot_gui_bridge/cmake/robot_gui_bridgeConfig-version.cmake
+/home/macosma1/catkin_ws/devel/.private/robot_gui_bridge/lib/pkgconfig/robot_gui_bridge.pc /home/macosma1/catkin_ws/devel/lib/pkgconfig/robot_gui_bridge.pc

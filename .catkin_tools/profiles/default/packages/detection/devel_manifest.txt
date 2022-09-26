@@ -1,0 +1,5 @@
+detection
+/home/macosma1/catkin_ws/devel/.private/detection/cmake.lock /home/macosma1/catkin_ws/devel/./cmake.lock
+/home/macosma1/catkin_ws/devel/.private/detection/share/detection/cmake/detectionConfig.cmake /home/macosma1/catkin_ws/devel/share/detection/cmake/detectionConfig.cmake
+/home/macosma1/catkin_ws/devel/.private/detection/share/detection/cmake/detectionConfig-version.cmake /home/macosma1/catkin_ws/devel/share/detection/cmake/detectionConfig-version.cmake
+/home/macosma1/catkin_ws/devel/.private/detection/lib/pkgconfig/detection.pc /home/macosma1/catkin_ws/devel/lib/pkgconfig/detection.pc
