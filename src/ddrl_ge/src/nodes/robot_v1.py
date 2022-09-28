@@ -357,7 +357,7 @@ class Robot(object):
             self.__step_cache      = self.step
             self.__scan_data_cache = scan_data
             self.force_update      = False
-
+        print(scan_data)
         return scan_data
 
 

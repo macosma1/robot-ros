@@ -9,12 +9,12 @@
             transform_tolerance: 0.01
             min_height: 0.0
             max_height: 1.0
-            angle_min: -0.610865 # -35º
-            angle_max: 0.610865 # +35º
-            angle_increment: 0.050905436 # para 24 puntos
+            angle_min: -1.5 # -35º
+            angle_max: 1.5 # +35º
+            angle_increment: 0.125 # para 24 puntos
             scan_time: 1.0/30.0
-            range_min: 0.15
-            range_max: 3.5
+            range_min: 0.0
+            range_max: 4.5
             concurrency_level: 1
             use_inf: true
         </rosparam>
