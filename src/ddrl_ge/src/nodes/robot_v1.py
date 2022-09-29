@@ -296,43 +296,12 @@ class Robot(object):
 
         return
 
-    # @property
-    # def scan_data(self):
-    #     '''
-    #     Get data of the laser
-    #     '''
-    #     if self.__step_cache == self.step and not self.force_update:
-    #         scan_data=self.__scan_data_cache
-    #     else:
-    #         data = None
-    #         while data is None:
-    #             try:
-    #                 data = rospy.wait_for_message('scan', LaserScan, timeout=5)
-    #             except:
-    #                 pass
-    #         scan = data
-    #         scan_data = []
-    #         for i in range(len(scan.ranges)):
-    #             if scan.ranges[i] == float("Inf"):
-    #                 scan_data.append(3.5)
-    #             elif np.isnan(scan.ranges[i]):
-    #                 scan_data.append(0)
-    #             else:
-    #                 scan_data.append(scan.ranges[i])
-    #         if np.any(np.isnan(np.array(scan_data))):
-    #             raise Exception("it's nan sensor")
-
-    #         self.__step_cache      = self.step
-    #         self.__scan_data_cache = scan_data
-    #         self.force_update      = False
-
-    #     return scan_data
-
     @property
     def scan_data(self):
         '''
-        Get data of the laser
+        Get data of the camera
         '''
+        a= []
         if self.__step_cache == self.step and not self.force_update:
             scan_data=self.__scan_data_cache
         else:
@@ -344,21 +313,84 @@ class Robot(object):
                     pass
             scan = data
             scan_data = []
-            for i in range(len(scan.ranges)):
+            scan_data1 = []
+            scan_data2 = []
+            d=[1.5]*24
+            b= []
+            c = 0  
+            for i in range(len(scan.ranges)):    
                 if scan.ranges[i] == float("Inf"):
                     scan_data.append(3.5)
                 elif np.isnan(scan.ranges[i]):
                     scan_data.append(0)
                 else:
                     scan_data.append(scan.ranges[i])
+                if scan_data[i] >= c:
+                    if scan_data[i]  <= 2:
+                        c = scan_data[i]
+                    else: 
+                        pass
+                else:
+                    pass
+            for i in range(len(scan.ranges)):
+                if i <= 5: 
+                    scan_data1.append(scan_data[i])
+                else:
+                    scan_data2.append(scan_data[i])
+            for i in range(12):
+                b.append(c)
+            for i in range(12):
+                scan_data.append(c)
+            a[0:5] = scan_data2
+            a[6:18] = b
+            a[19:24] = scan_data1
+            scan_data = a
             if np.any(np.isnan(np.array(scan_data))):
+                scan_data = d 
                 raise Exception("it's nan sensor")
-
             self.__step_cache      = self.step
             self.__scan_data_cache = scan_data
             self.force_update      = False
+        #print(a)
         print(scan_data)
         return scan_data
+
+    # @property
+    # def scan_data(self):
+    #     '''
+    #     Get data of the laser
+    #     '''
+        
+    #     # scan_data1 = [0]*24
+    #     if self.__step_cache == self.step and not self.force_update:
+    #         scan_data=self.__scan_data_cache
+    #     else:
+    #         data = None
+    #         while data is None:
+    #             try:
+    #                 data = rospy.wait_for_message('/camera/scan', LaserScan, timeout=5)
+    #             except:
+    #                 pass
+    #         scan = data
+    #         scan_data = []
+    #         for a in range(24):
+    #             if (a > 5 & a <19):
+    #                 for i in range(len(scan.ranges)):
+    #                     if scan.ranges[i] == float("Inf"):
+    #                         scan_data.append(3.5)
+    #                     elif np.isnan(scan.ranges[i]):
+    #                         scan_data.append(0)
+    #                     else:
+    #                         scan_data.append(scan.ranges[i])
+    #             else:
+    #                 scan_data.append(0) 
+    #         if np.any(np.isnan(np.array(scan_data))):
+    #             raise Exception("it's nan sensor")
+    #         self.__step_cache      = self.step
+    #         self.__scan_data_cache = scan_data
+    #         self.force_update      = False
+    #     print(scan_data)
+    #     return scan_data
 
 
 
