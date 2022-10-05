@@ -9,5 +9,6 @@
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/macosma1/catkin_ws/devel/.private/turtlebot3_gazebo:$CMAKE_PREFIX_PATH"
 export PWD='/home/macosma1/catkin_ws/build/turtlebot3_gazebo'
+export PYTHONPATH="/home/macosma1/catkin_ws/devel/lib/python2.7/dist-packages:$PYTHONPATH"
 export ROSLISP_PACKAGE_DIRECTORIES="/home/macosma1/catkin_ws/devel/.private/turtlebot3_gazebo/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/macosma1/catkin_ws/src/turtlebot3_simulations/turtlebot3_gazebo:$ROS_PACKAGE_PATH"

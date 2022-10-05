@@ -1,6 +1,5 @@
 <launch>
-    <!--run pointcloud_to_laserscan node-->
-    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+ <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
 
         <remap from="cloud_in" to="/camera/depth/points"/>
         <remap from="scan" to="/camera/scan"/>
@@ -11,15 +10,15 @@
             max_height: 1.0
             angle_min: -1.55 # -0.610865 # -35º
             angle_max:  1.55 # 0.610865 # +35º
-            angle_increment: 0.25833333333 # 0.050905436 # para 12 puntos frontales
+            angle_increment: 0.25833333333 # 0.050905436 # para 24 puntos
             scan_time: 1.0/30.0
             range_min: 0.00
             range_max: 3.5
             concurrency_level: 1
             use_inf: true
         </rosparam>
-    </node>    
-    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="back_pointcloud_to_laserscan">
+  </node>    
+  <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="back_pointcloud_to_laserscan">
 
         <remap from="cloud_in" to="/back_camera/depth/points"/>
         <remap from="scan" to="/back_camera/scan"/>
@@ -30,12 +29,13 @@
             max_height: 1.0
             angle_min: -1.55 # -0.610865 # -35º
             angle_max:  1.55 # 0.610865 # +35º
-            angle_increment: 0.25833333333 # 0.050905436 # para 12 puntos traseros
+            angle_increment: 0.25833333333 # 0.050905436 # para 24 puntos
             scan_time: 1.0/30.0
             range_min: 0.00
             range_max: 3.5
             concurrency_level: 1
             use_inf: true
         </rosparam>
-    </node>
+  </node>
+  <node pkg="ddrl_ge" type="network_v1" name="network_v1" output="screen" />
 </launch>

@@ -168,6 +168,7 @@
                izz="0.001" />
     </inertial>
   </link>
+  
 <joint name="camera_joint" type="fixed">
     <origin xyz="-0.032 0 0.172" rpy="0 0 0"/>
     <parent link="base_link"/>
@@ -185,7 +186,7 @@
     	</material>
     </visual>
     <collision>
-      <origin xyz="0.015 0 -0.0065" rpy="0 0 0"/>
+      <origin xyz="0.012 0 -0.0065" rpy="0 0 0"/>
       <geometry>
         <box size="0.003 0.25 0.016"/>
       </geometry>

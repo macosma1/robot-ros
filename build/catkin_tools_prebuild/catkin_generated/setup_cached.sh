@@ -8,7 +8,9 @@
 
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/macosma1/catkin_ws/devel/.private/catkin_tools_prebuild:$CMAKE_PREFIX_PATH"
-export PATH='/opt/ros/melodic/bin:/home/macosma1/anaconda3/envs/robot/bin:/home/macosma1/anaconda3/condabin:/home/macosma1/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
+export LD_LIBRARY_PATH='/opt/ros/melodic/lib:/opt/ros/melodic/lib/x86_64-linux-gnu'
+export PKG_CONFIG_PATH='/opt/ros/melodic/lib/pkgconfig'
 export PWD='/home/macosma1/catkin_ws/build/catkin_tools_prebuild'
-export ROSLISP_PACKAGE_DIRECTORIES='/home/macosma1/catkin_ws/devel/.private/catkin_tools_prebuild/share/common-lisp'
+export PYTHONPATH='/opt/ros/melodic/lib/python2.7/dist-packages'
+export ROSLISP_PACKAGE_DIRECTORIES="/home/macosma1/catkin_ws/devel/.private/catkin_tools_prebuild/share/common-lisp:$ROSLISP_PACKAGE_DIRECTORIES"
 export ROS_PACKAGE_PATH="/home/macosma1/catkin_ws/build/catkin_tools_prebuild:$ROS_PACKAGE_PATH"
