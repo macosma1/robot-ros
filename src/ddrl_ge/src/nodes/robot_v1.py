@@ -20,6 +20,7 @@ import rospy
 import numpy as np
 import math
 import json
+import message_filters
 from math import pi
 from geometry_msgs.msg import Twist, Point, Pose
 from sensor_msgs.msg import LaserScan
@@ -33,6 +34,8 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 from environment_v1 import Behaviour
+
+# from check_sync import front, back
 
 class Robot(object):
     """
@@ -294,7 +297,7 @@ class Robot(object):
         return
 
 
-    # @property
+    # @property                             #para una camara
     # def scan_data(self):
     #     '''
     #     Get data of the laser
@@ -328,7 +331,7 @@ class Robot(object):
     #     return scan_data
 
 
-    # @property
+    # @property                             #para dos camaras (sin sincronizacion temporal)
     # def scan_data(self):
     #     '''
     #     Get data of the camera (frontal-back)
@@ -387,6 +390,7 @@ class Robot(object):
     #     print(scan_data)
     #     return scan_data
 
+
     @property
     def scan_data(self):
         '''
@@ -395,71 +399,26 @@ class Robot(object):
         if self.__step_cache == self.step and not self.force_update:
             scan_data=self.__scan_data_cache
         else:
-            data_front = None
-            while data_front is None:
+            scan_d = None
+            while scan_d is None:
                 try:
-                    data_front = rospy.wait_for_message('/camera/scan', LaserScan, timeout=5)
+                    scan_d = rospy.wait_for_message('/camera_sync', LaserScan, timeout=5)
                 except:
                     pass
-            data_back = None
-            while data_back is None:
-                try:
-                    data_back = rospy.wait_for_message('/back_camera/scan', LaserScan, timeout=5)
-                except:
-                    pass
-            scan = data_front
-            scan2 = data_back
+
+            scan = scan_d
             scan_data = []
-            d=[1.5]*24     
-            
-            for i in range(len(scan.ranges)/2):             #frontal camera left
-                if scan.ranges[i+6] == float("Inf"):
-                    scan_data.append(3.5)
-                elif np.isnan(scan.ranges[i+6]):
-                    scan_data.append(0)
-                else:
-                    scan_data.append(scan.ranges[i+6])
-
-            for i in range(len(scan2.ranges)):               #back camera
-                if scan2.ranges[i] == float("Inf"):
-                    scan_data.append(3.5)
-                elif np.isnan(scan.ranges[i]):
-                    scan_data.append(0)
-                else:
-                    scan_data.append(scan2.ranges[i])
-            
-            for i in range(len(scan.ranges)/2):             #frontal camera right
-                if scan.ranges[i] == float("Inf"):
-                    scan_data.append(3.5)
-                elif np.isnan(scan.ranges[i]):
-                    scan_data.append(0)
-                else:
-                    if i == 5:
-                        scan_data.append(scan.ranges[i+6])
-                    else:  
-                        scan_data.append(scan.ranges[i])
-                
-            
-            # for i in range(len(scan.ranges)/2 -5):             #frontal camera right
-            #     if scan.ranges[i+6] == float("Inf"):
-            #         scan_data.append(3.5)
-            #     elif np.isnan(scan.ranges[i+6]):
-            #         scan_data.append(0)
-            #     else:
-            #         scan_data.append(scan.ranges[i+6])
-
-            if np.any(np.isnan(np.array(scan_data))):
-                scan_data = d 
-                raise Exception("it's nan sensor")
+           
+            for i in range(len(scan.ranges)):             
+                scan_data.append(scan.ranges[i])
 
             self.__step_cache      = self.step
             self.__scan_data_cache = scan_data
             self.force_update      = False       
         print(scan_data)
         return scan_data
-#
 
-
+    
     def get_Odometry(self, odom):
         '''
         Position and orientation to the robot

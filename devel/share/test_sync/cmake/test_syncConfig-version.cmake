@@ -1,0 +1,1 @@
+/home/macosma1/catkin_ws/devel/.private/test_sync/share/test_sync/cmake/test_syncConfig-version.cmake

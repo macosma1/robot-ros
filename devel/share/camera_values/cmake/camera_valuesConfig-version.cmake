@@ -1,0 +1,1 @@
+/home/macosma1/catkin_ws/devel/.private/camera_values/share/camera_values/cmake/camera_valuesConfig-version.cmake
