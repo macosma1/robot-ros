@@ -307,132 +307,138 @@ class Robot(object):
 
     @property
     def scan_data(self):
-        '''
-        Get data of the camera (frontal-back)
-        '''
-        if self.__step_cache == self.step and not self.force_update:
-            scan_data=self.__scan_data_cache
-        else:
-            scan_d = None
-            while scan_d is None:
-                try:
-                    scan_d = rospy.wait_for_message('/camera_sync', LaserScan, timeout=5)
-                except:
-                    pass
+        if  self.camara2==1:
+            '''
+            Get data of the camera (frontal-back)
+            '''
+            if self.__step_cache == self.step and not self.force_update:
+                scan_data=self.__scan_data_cache
+            else:
+                scan_d = None
+                while scan_d is None:
+                    try:
+                        scan_d = rospy.wait_for_message('/camera_sync', LaserScan, timeout=5)
+                    except:
+                        pass
 
-            scan = scan_d
-            scan_data = []
-        
-            for i in range(len(scan.ranges)):             
-                scan_data.append(scan.ranges[i])
-
-            self.__step_cache      = self.step
-            self.__scan_data_cache = scan_data
-            self.force_update      = False       
-        print(scan_data)
-        return scan_data
-
-        '''
-        Get data of the laser         #para una camara
-        '''
-        # if self.__step_cache == self.step and not self.force_update:                                                      # camara1 inicial (laser) 
-        #     scan_data=self.__scan_data_cache
-        # else:
-        #     data = None
-        #     while data is None:
-        #         try:
-        #             data = rospy.wait_for_message('/scan', LaserScan, timeout=5)
-        #         except:
-        #             pass
-        #     scan = data
-        #     scan_data = []
-        #     for i in range(len(scan.ranges)):
-        #         if scan.ranges[i] == float("Inf"):
-        #             scan_data.append(3.5)
-        #         elif np.isnan(scan.ranges[i]):
-        #             scan_data.append(0)
-        #         else:
-        #             scan_data.append(scan.ranges[i])
-        #     if np.any(np.isnan(np.array(scan_data))):
-        #         raise Exception("it's nan sensor")
-        #     self.__step_cache      = self.step
-        #     self.__scan_data_cache = scan_data
-        #     self.force_update      = False
-        # print(scan_data)
-        # return scan_data
-
-        '''
-        Get data of the camera # camara1 modificado(180 y 70º)
-        '''
-        # if self.__step_cache == self.step and not self.force_update:                                                           # camara1 modificado(180 y 70º)
-        #     scan_data=self.__scan_data_cache
-        # else:
-        #     data = None
-        #     while data is None:
-        #         try:
-        #             data = rospy.wait_for_message('/camera/scan', LaserScan, timeout=5)
-        #         except:
-        #             pass
-        #     scan = data
-        #     scandata = []
-        #     scan_max = 0
-        #     scan_data = []
-        #     d=[1.5]*24
-        #     promedio = 0
+                scan = scan_d
+                scan_data = []
             
-        #     for i in range(len(scan.ranges)):
-        #         if scan.ranges[i] == float("Inf"):
-        #             scandata.append(3.5)
-        #         elif np.isnan(scan.ranges[i]):
-        #             scandata.append(0)
-        #         else:
-        #             scandata.append(scan.ranges[i])
-            
-        #     for i in range(len(scan.ranges)):
-        #         promedio += scandata[i]
-            
-            
-            
-        #     for i in range(len(scan.ranges)/2):
-        #         if scan.ranges[i+6] == float("Inf"):
-        #             scan_data.append(3.5)
-        #         elif np.isnan(scan.ranges[i+6]):
-        #             scan_data.append(0)
-        #         else:
-        #             scan_data.append(scan.ranges[i+6])
+                for i in range(len(scan.ranges)):             
+                    scan_data.append(scan.ranges[i])
 
-        #     for i in range(len(scan.ranges)):               #para ver el valor maximo (que repetiremos)
-        #         if scan.ranges[i] > scan_max:
-        #             if scan.ranges[i] <= 2:
-        #                 scan_max = scan.ranges[i]
-        #             else:
-        #                 pass
-        #         else:
-        #             pass
+                self.__step_cache      = self.step
+                self.__scan_data_cache = scan_data
+                self.force_update      = False       
+            print(scan_data)
+            return scan_data
 
-        #     for i in range(len(scan.ranges)):
-        #         if scan_max == 0:
-        #             scan_max = promedio/12
-        #         scan_data.append(scan_max)
-
+        elif self.cameraini1==1:
+            '''
+            Get data of the laser         #para una camara
+            '''
             
-        #     for i in range(len(scan.ranges)/2):
-        #         if scan.ranges[i] == float("Inf"):
-        #             scan_data.append(3.5)
-        #         elif np.isnan(scan.ranges[i]):
-        #             scan_data.append(0)
-        #         else:
-        #             scan_data.append(scan.ranges[i])
+            # scan_data1 = [0]*24
+            if self.__step_cache == self.step and not self.force_update:
+                scan_data=self.__scan_data_cache
+            else:
+                data = None
+                while data is None:
+                    try:
+                        data = rospy.wait_for_message('/scan', LaserScan, timeout=5)
+                    except:
+                        pass
+                scan = data
+                scan_data = []
+                for i in range(len(scan.ranges)):
+                    if scan.ranges[i] == float("Inf"):
+                        scan_data.append(3.5)
+                    elif np.isnan(scan.ranges[i]):
+                        scan_data.append(0)
+                    else:
+                        scan_data.append(scan.ranges[i])
+                if np.any(np.isnan(np.array(scan_data))):
+                    raise Exception("it's nan sensor")
+                self.__step_cache      = self.step
+                self.__scan_data_cache = scan_data
+                self.force_update      = False
+            print(scan_data)
+            return scan_data
 
-        #     if np.any(np.isnan(np.array(scan_data))):
-        #         scan_data = d 
-        #         raise Exception("it's nan sensor")
 
-        #     self.__step_cache      = self.step
-        #     self.__scan_data_cache = scan_data
-        #     self.force_update      = False
-        # print(scan_data)
-        # return scan_data
+        elif self.camera1==1:
+            '''
+            Get data of the camera 
+            '''
+            if self.__step_cache == self.step and not self.force_update:
+                scan_data=self.__scan_data_cache
+            else:
+                data = None
+                while data is None:
+                    try:
+                        data = rospy.wait_for_message('/camera/scan', LaserScan, timeout=5)
+                    except:
+                        pass
+                scan = data
+                scandata = []
+                scan_max = 0
+                scan_data = []
+                d=[1.5]*24
+                promedio = 0
+                
+                for i in range(len(scan.ranges)):
+                    if scan.ranges[i] == float("Inf"):
+                        scandata.append(3.5)
+                    elif np.isnan(scan.ranges[i]):
+                        scandata.append(0)
+                    else:
+                        scandata.append(scan.ranges[i])
+                
+                for i in range(len(scan.ranges)):
+                    promedio += scandata[i]
+                
+                
+                
+                for i in range(len(scan.ranges)/2):
+                    if scan.ranges[i+6] == float("Inf"):
+                        scan_data.append(3.5)
+                    elif np.isnan(scan.ranges[i+6]):
+                        scan_data.append(0)
+                    else:
+                        scan_data.append(scan.ranges[i+6])
+
+                for i in range(len(scan.ranges)):               #para ver el valor maximo (que repetiremos)
+                    if scan.ranges[i] > scan_max:
+                        if scan.ranges[i] <= 2:
+                            scan_max = scan.ranges[i]
+                        else:
+                            pass
+                    else:
+                        pass
+
+                for i in range(len(scan.ranges)):
+                    if scan_max == 0:
+                        scan_max = promedio/12
+                    scan_data.append(scan_max)
+
+                
+                for i in range(len(scan.ranges)/2):
+                    if scan.ranges[i] == float("Inf"):
+                        scan_data.append(3.5)
+                    elif np.isnan(scan.ranges[i]):
+                        scan_data.append(0)
+                    else:
+                        scan_data.append(scan.ranges[i])
+
+                if np.any(np.isnan(np.array(scan_data))):
+                    scan_data = d 
+                    raise Exception("it's nan sensor")
+
+                self.__step_cache      = self.step
+                self.__scan_data_cache = scan_data
+                self.force_update      = False
+            print(scan_data)
+            return scan_data
 
 
     # @property                             #para dos camaras (sin sincronizacion temporal)
