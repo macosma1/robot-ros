@@ -41,7 +41,7 @@ def callback(camera, back_camera):
         raise Exception("it's nan sensor")
 
 
-    print(scan_data)
+    #print(scan_data)
     #print(camera.secs)
     #print(back_camera.secs)
     #pub.publish(secs = camera.secs)
@@ -54,7 +54,7 @@ back_sub = message_filters.Subscriber("/back_camera", LaserScan)
 
 pub = rospy.Publisher('camera_sync', LaserScan, queue_size=1)
 
-# ats = message_filters.ApproximateTimeSynchronizer([front_sub, back_sub], queue_size=5, slop=0.01)
+#ats = message_filters.ApproximateTimeSynchronizer([front_sub, back_sub], queue_size=5, slop=0.01)
 ats = message_filters.TimeSynchronizer([front_sub, back_sub], queue_size=1)
 ats.registerCallback(callback)
 

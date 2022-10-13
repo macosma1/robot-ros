@@ -1,8 +1,0 @@
-prefix=/home/macosma1/catkin_ws/devel/.private/camera_values
-
-Name: camera_values
-Description: Description of camera_values
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

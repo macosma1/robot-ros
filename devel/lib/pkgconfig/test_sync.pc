@@ -1,1 +1,0 @@
-/home/macosma1/catkin_ws/devel/.private/test_sync/lib/pkgconfig/test_sync.pc

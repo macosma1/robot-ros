@@ -1,8 +1,0 @@
-prefix=/home/macosma1/catkin_ws/devel/.private/test_sync
-
-Name: test_sync
-Description: Description of test_sync
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
