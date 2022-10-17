@@ -537,7 +537,7 @@ if __name__ == '__main__':
             # if (agent.Pa >=agent.lim_train) and (len(agent.memory_D) > 1*(agent.train_start)):
             # if agent.Pa >=agent.lim_q_i-0.006:
                 # print(agent.Pa)
-                agent.train_model()
+                #agent.train_model()
                 print("training")
             score += reward
             state = next_state

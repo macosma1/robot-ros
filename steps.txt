@@ -1,0 +1,44 @@
+##conda activate -ambiente
+##cd catkin
+
+#modificar global variable a TRUE segun lo que queremos ejecutar :
+-self.laser_scan                 = True
+-self.camera1                    = False
+-self.camara2                    = False
+
+source devel/setup.bash
+
+##laser
+#self.laser_scan                 = True
+roslaunch ddrl_ge turtlebot3_box.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge.launch
+
+##camara 77º
+#self.camera1                    = True
+roslaunch ddrl_ge turtlebot3_box_1cam77.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_1cam77.launch
+
+##camara 90º
+#self.camera1                    = True
+roslaunch ddrl_ge turtlebot3_box_1cam90.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_1cam90.launch
+
+##camara 120º
+#self.camera1                    = True
+roslaunch ddrl_ge turtlebot3_box_1cam120.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_1cam120.launch
+
+##camara 150º
+#self.camera1                    = True
+roslaunch ddrl_ge turtlebot3_box_1cam150.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_1cam150.launch
+
+##camara 180º
+#self.camera1                    = True
+roslaunch ddrl_ge turtlebot3_box_1cam180.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_1cam180.launch
+
+##2 camaras
+#self.camera2                    = True
+roslaunch ddrl_ge turtlebot3_box_2cam.launch
+roslaunch ddrl_ge turtlebot3_ddrl_ge_2cam.launch

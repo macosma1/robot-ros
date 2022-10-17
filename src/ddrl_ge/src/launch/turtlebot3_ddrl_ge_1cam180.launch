@@ -18,5 +18,6 @@
             use_inf: true
         </rosparam>
   </node>
+    <node pkg="ddrl_ge" type="camera_sync2.py" name="camera_sync2" output="screen" />
   <node pkg="ddrl_ge" type="network_v1" name="network_v1" output="screen" />
 </launch>
