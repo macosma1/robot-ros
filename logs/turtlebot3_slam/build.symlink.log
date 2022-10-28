@@ -1,4 +1,4 @@
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_slam/share/turtlebot3_slam/cmake/turtlebot3_slamConfig.cmake, /home/macosma1/catkin_ws/devel/share/turtlebot3_slam/cmake/turtlebot3_slamConfig.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_slam/share/turtlebot3_slam/cmake/turtlebot3_slamConfig-version.cmake, /home/macosma1/catkin_ws/devel/share/turtlebot3_slam/cmake/turtlebot3_slamConfig-version.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_slam/lib/turtlebot3_slam/flat_world_imu_node, /home/macosma1/catkin_ws/devel/lib/turtlebot3_slam/flat_world_imu_node)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_slam/lib/pkgconfig/turtlebot3_slam.pc, /home/macosma1/catkin_ws/devel/lib/pkgconfig/turtlebot3_slam.pc)
+Symlinking /home/macosma1/catkin_ws/devel/share/turtlebot3_slam/cmake/turtlebot3_slamConfig.cmake
+Symlinking /home/macosma1/catkin_ws/devel/share/turtlebot3_slam/cmake/turtlebot3_slamConfig-version.cmake
+Symlinking /home/macosma1/catkin_ws/devel/lib/turtlebot3_slam/flat_world_imu_node
+Symlinking /home/macosma1/catkin_ws/devel/lib/pkgconfig/turtlebot3_slam.pc

@@ -7,14 +7,15 @@ from sensor_msgs.msg import LaserScan
 
 rospy.init_node("camera_sync2")
 
-def callback(camera, back_camera):
+def callback(camera, laser):
     scan = camera
+    laser = laser
     val_max = 0
     sum_data = 0
     promedio = 0
     scan_max = 1
     scan_data_pre = []
-    scan_data = 24*[0]
+    scan_data = 48*[0]
     
     #print(scan.header)
     for i in range(len(scan.ranges)*2):
@@ -45,10 +46,20 @@ def callback(camera, back_camera):
         
         if i >= 12:
             scan_data_pre.append(scan_max)
-    
+
     scan_data[0:6] = scan_data_pre[6:12]
     scan_data[6:18] = scan_data_pre[12:24]
     scan_data[18:24] = scan_data_pre[0:6]
+    
+    for i in range(len(laser.ranges)):
+        if laser.ranges[i] == float("Inf"):
+            scan_data_pre.append(3.5)
+        elif np.isnan(laser.ranges[i]):
+            scan_data_pre.append(0)
+        else:
+            scan_data_pre.append(laser.ranges[i])
+    
+    scan_data[24:48] = scan_data_pre[24:48]
 
     if np.any(np.isnan(np.array(scan_data))):
         scan_data = d 
@@ -59,12 +70,12 @@ def callback(camera, back_camera):
 
 
 front_sub = message_filters.Subscriber("/camera", LaserScan)
-back_sub = front_sub
+laser = message_filters.Subscriber("/scan", LaserScan)
 
 pub = rospy.Publisher('camera_sync2', LaserScan, queue_size=1)
 
-#ats = message_filters.ApproximateTimeSynchronizer([front_sub, back_sub], queue_size=5, slop=0.01)
-ats = message_filters.TimeSynchronizer([front_sub, back_sub], queue_size=1)
+ats = message_filters.ApproximateTimeSynchronizer([front_sub, laser], queue_size=2, slop=0.15)
+#ats = message_filters.TimeSynchronizer([front_sub, laser], queue_size=1)
 ats.registerCallback(callback)
 
 rospy.spin()

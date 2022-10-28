@@ -1,4 +1,4 @@
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_teleop/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig.cmake, /home/macosma1/catkin_ws/devel/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_teleop/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig-version.cmake, /home/macosma1/catkin_ws/devel/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig-version.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_teleop/lib/python2.7/dist-packages/turtlebot3_teleop/__init__.py, /home/macosma1/catkin_ws/devel/lib/python2.7/dist-packages/turtlebot3_teleop/__init__.py)
-Linked: (/home/macosma1/catkin_ws/devel/.private/turtlebot3_teleop/lib/pkgconfig/turtlebot3_teleop.pc, /home/macosma1/catkin_ws/devel/lib/pkgconfig/turtlebot3_teleop.pc)
+Symlinking /home/macosma1/catkin_ws/devel/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig.cmake
+Symlinking /home/macosma1/catkin_ws/devel/share/turtlebot3_teleop/cmake/turtlebot3_teleopConfig-version.cmake
+Symlinking /home/macosma1/catkin_ws/devel/lib/python2.7/dist-packages/turtlebot3_teleop/__init__.py
+Symlinking /home/macosma1/catkin_ws/devel/lib/pkgconfig/turtlebot3_teleop.pc

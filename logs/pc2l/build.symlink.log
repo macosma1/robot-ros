@@ -1,3 +1,3 @@
-Linked: (/home/macosma1/catkin_ws/devel/.private/pc2l/share/pc2l/cmake/pc2lConfig-version.cmake, /home/macosma1/catkin_ws/devel/share/pc2l/cmake/pc2lConfig-version.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/pc2l/share/pc2l/cmake/pc2lConfig.cmake, /home/macosma1/catkin_ws/devel/share/pc2l/cmake/pc2lConfig.cmake)
-Linked: (/home/macosma1/catkin_ws/devel/.private/pc2l/lib/pkgconfig/pc2l.pc, /home/macosma1/catkin_ws/devel/lib/pkgconfig/pc2l.pc)
+Symlinking /home/macosma1/catkin_ws/devel/share/pc2l/cmake/pc2lConfig-version.cmake
+Symlinking /home/macosma1/catkin_ws/devel/share/pc2l/cmake/pc2lConfig.cmake
+Symlinking /home/macosma1/catkin_ws/devel/lib/pkgconfig/pc2l.pc

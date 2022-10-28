@@ -103,12 +103,12 @@
     </plugin>
   </gazebo>
 
-  <!-- <gazebo reference="base_scan">
+  <gazebo reference="base_scan">
     <material>Gazebo/FlatBlack</material>
     <sensor type="ray" name="lds_lfcd_sensor">
       <pose>0 0 0 0 0 0</pose>
       <visualize>$(arg laser_visual)</visualize>
-      <update_rate>5</update_rate>
+      <update_rate>6.8</update_rate>
       <ray>
         <scan>
           <horizontal>
@@ -134,7 +134,7 @@
         <frameName>base_scan</frameName>
       </plugin>
     </sensor>
-  </gazebo> -->
+  </gazebo>
 <gazebo reference="camera_rgb_frame">
     <sensor type="depth" name="realsense_R200">
       <always_on>true</always_on>

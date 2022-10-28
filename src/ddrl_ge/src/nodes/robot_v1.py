@@ -43,9 +43,9 @@ class Robot(object):
     """
 
     def __init__(self, number_action, environment, min_action_time=0.25):
-        self.laser_scan                 = True
+        self.laser_scan                 = False
         self.camera1                    = False
-        self.camara2                    = False
+        self.camara2                    = True
         self.number_action              = number_action
         self.environment                = environment
         self.reset_proxy                = rospy.ServiceProxy('gazebo/reset_simulation', Empty)
@@ -75,6 +75,7 @@ class Robot(object):
         self.__action_time              = 0
         # Save the data laser to avoid asking ros all the time
         self.__step_cache               = -1
+        self.__step_cache_laser               = -1
         self.step                       = 0
         # Defines specific movements
         self.__forward_action           = int((number_action-2)/2.)
@@ -114,7 +115,7 @@ class Robot(object):
         # print("i am in evolve")
 
         # call the scan data method
-        scan = np.array(self.scan_data)
+        scan = np.array(self.scan_data[0:24])
 
         # Update the map, probably not necessary every step
         if (self.step % 1 == 0) and (self.step!=0):
@@ -206,7 +207,7 @@ class Robot(object):
         '''
         Look for an obstacle free angle
         '''
-        scan         = np.array(self.scan_data)
+        scan         = np.array(self.scan_data[0:24])
         laser_angles = np.array(self.laser_angles)
         mask         = scan>self.__avoid_distance
         indices      = np.arange(len(laser_angles))
@@ -307,37 +308,10 @@ class Robot(object):
 
     @property
     def scan_data(self):
-        if  self.camara2 == True:
-            '''
-            Get data of the camera (frontal-back)
-            '''
-            if self.__step_cache == self.step and not self.force_update:
-                scan_data=self.__scan_data_cache
-            else:
-                scan_d = None
-                while scan_d is None:
-                    try:
-                        scan_d = rospy.wait_for_message('/camera_sync', LaserScan, timeout=3)
-                    except:
-                        pass
-
-                scan = scan_d
-                scan_data = []
-            
-                for i in range(len(scan.ranges)):             
-                    scan_data.append(scan.ranges[i])
-
-                self.__step_cache      = self.step
-                self.__scan_data_cache = scan_data
-                self.force_update      = False   
-            
-
-        elif self.laser_scan == True:
+        if self.laser_scan == True:
             '''
             Get data of the laser         #para una camara
             '''
-            
-            # scan_data1 = [0]*24
             if self.__step_cache == self.step and not self.force_update:
                 scan_data=self.__scan_data_cache
 
@@ -390,210 +364,32 @@ class Robot(object):
                 self.force_update      = False   
 
 
-        # elif self.camera1 == True:
-        #         '''
-        #         Get data of the camera 
-        #         '''
-        #         if self.__step_cache == self.step and not self.force_update:
-        #             scan_data=self.__scan_data_cache
-        #         else:
-        #             data = None
-        #             while data is None:
-        #                 try:
-        #                     #data = message_filters.Subscriber("/camera", LaserScan)
-        #                     data = rospy.wait_for_message('/camera', LaserScan, timeout=5)
-        #                 except:
-        #                     pass
-        #             scan = data
-        #             val_max = 0
-        #             sum_data = 0
-        #             promedio = 0
-        #             scan_max = 1
-        #             scan_data_pre = []
-        #             scan_data = 24*[0]
-                    
-        #             #print(scan.header)
-        #             for i in range(len(scan.ranges)*2):
-        #                 if i < 12:
-        #                     if scan.ranges[i] == float("Inf"):
-        #                         scan_data_pre.append(3.5)
-        #                         val_max = 3.5
-        #                     elif np.isnan(scan.ranges[i]):
-        #                         scan_data_pre.append(0)
-        #                         val_max = 0
-        #                     else:
-        #                         scan_data_pre.append(scan.ranges[i])
-        #                         val_max = scan.ranges[i]
-                            
-        #                     sum_data = sum_data + val_max
-        #                     if scan.ranges[i] > scan_max:
-        #                         if scan.ranges[i] <= 2:
-        #                             scan_max = scan.ranges[i]
-        #                         else:
-        #                             pass
-        #                     else: 
-        #                         pass
+        elif  self.camara2 == True:
+            '''
+            Get data of the camera (frontal-back)
+            '''
+            if self.__step_cache == self.step and not self.force_update:
+                scan_data=self.__scan_data_cache
+            else:
+                scan_d = None
+                while scan_d is None:
+                    try:
+                        scan_d = rospy.wait_for_message('/camera_sync', LaserScan, timeout=3)
+                    except:
+                        pass
 
-        #                 if i == 12:
-        #                     promedio = sum_data/12
-        #                     if scan_max == 1:           #son todos o mayores de 2 o menor de 1, pillamos el promedio entonces
-        #                         scan_max = promedio
-                        
-        #                 if i >= 12:
-        #                     scan_data_pre.append(scan_max)
-                    
-        #             scan_data[0:6] = scan_data_pre[6:12]
-        #             scan_data[6:18] = scan_data_pre[12:24]
-        #             scan_data[18:24] = scan_data_pre[0:6]
+                scan = scan_d
+                scan_data = []
+            
+                for i in range(len(scan.ranges)):             
+                    scan_data.append(scan.ranges[i])
 
-        #             if np.any(np.isnan(np.array(scan_data))):
-        #                 scan_data = d 
-        #                 raise Exception("it's nan sensor")
+                self.__step_cache      = self.step
+                self.__scan_data_cache = scan_data
+                self.force_update      = False   
+                # print("scan", scan_data)
 
-        #             self.__step_cache      = self.step
-        #             self.__scan_data_cache = scan_data
-        #             self.force_update      = False
         return scan_data
-
-
-        # elif self.camera1 == True:
-        #     '''
-        #     Get data of the camera 
-        #     '''
-        #     if self.__step_cache == self.step and not self.force_update:
-        #         scan_data=self.__scan_data_cache
-        #     else:
-        #         data = None
-        #         while data is None:
-        #             try:
-        #                 data = rospy.wait_for_message('/camera', LaserScan, timeout=5)
-        #             except:
-        #                 pass
-        #         scan = data
-        #         scandata = []
-        #         scan_max = 0
-        #         scan_data = []
-        #         d=[1.5]*24
-        #         promedio = 0
-                
-        #         for i in range(len(scan.ranges)):
-        #             if scan.ranges[i] == float("Inf"):
-        #                 scandata.append(3.5)
-        #             elif np.isnan(scan.ranges[i]):
-        #                 scandata.append(0)
-        #             else:
-        #                 scandata.append(scan.ranges[i])
-                
-        #         for i in range(len(scan.ranges)):
-        #             promedio += scandata[i]
-                
-                
-                
-        #         for i in range(len(scan.ranges)/2):
-        #             if scan.ranges[i+6] == float("Inf"):
-        #                 scan_data.append(3.5)
-        #             elif np.isnan(scan.ranges[i+6]):
-        #                 scan_data.append(0)
-        #             else:
-        #                 scan_data.append(scan.ranges[i+6])
-
-        #         for i in range(len(scan.ranges)):               #para ver el valor maximo (que repetiremos)
-        #             if scan.ranges[i] > scan_max:
-        #                 if scan.ranges[i] <= 2:
-        #                     scan_max = scan.ranges[i]
-        #                 else:
-        #                     pass
-        #             else:
-        #                 pass
-
-        #         for i in range(len(scan.ranges)):
-        #             if scan_max == 0:
-        #                 scan_max = promedio/12
-        #             scan_data.append(scan_max)
-
-                
-        #         for i in range(len(scan.ranges)/2):
-        #             if scan.ranges[i] == float("Inf"):
-        #                 scan_data.append(3.5)
-        #             elif np.isnan(scan.ranges[i]):
-        #                 scan_data.append(0)
-        #             else:
-        #                 scan_data.append(scan.ranges[i])
-
-        #         if np.any(np.isnan(np.array(scan_data))):
-        #             scan_data = d 
-        #             raise Exception("it's nan sensor")
-
-        #         self.__step_cache      = self.step
-        #         self.__scan_data_cache = scan_data
-        #         self.force_update      = False
-
-        #print(scan_data)
-
-
-
-
-    # @property                             #para dos camaras (sin sincronizacion temporal)
-    # def scan_data(self):
-    #     '''
-    #     Get data of the camera (frontal-back)
-    #     '''
-    #     if self.__step_cache == self.step and not self.force_update:
-    #         scan_data=self.__scan_data_cache
-    #     else:
-    #         data_front = None
-    #         while data_front is None:
-    #             try:
-    #                 data_front = rospy.wait_for_message('/camera', LaserScan, timeout=5)
-    #             except:
-    #                 pass
-    #         data_back = None
-    #         while data_back is None:
-    #             try:
-    #                 data_back = rospy.wait_for_message('/back_camera', LaserScan, timeout=5)
-    #             except:
-    #                 pass
-    #         scan = data_front
-    #         scan2 = data_back
-    #         scan_data = []
-    #         d=[1.5]*24     
-            
-    #         for i in range(len(scan.ranges)/2):             #frontal camera left
-    #             if scan.ranges[i+6] == float("Inf"):
-    #                 scan_data.append(3.5)
-    #             elif np.isnan(scan.ranges[i+6]):
-    #                 scan_data.append(0)
-    #             else:
-    #                 scan_data.append(scan.ranges[i+6])
-
-    #         for i in range(len(scan2.ranges)):               #back camera
-    #             if scan2.ranges[i] == float("Inf"):
-    #                 scan_data.append(3.5)
-    #             elif np.isnan(scan.ranges[i]):
-    #                 scan_data.append(0)
-    #             else:
-    #                 scan_data.append(scan2.ranges[i])
-            
-    #         for i in range(len(scan.ranges)/2):             #frontal camera right
-    #             if scan.ranges[i] == float("Inf"):
-    #                 scan_data.append(3.5)
-    #             elif np.isnan(scan.ranges[i]):
-    #                 scan_data.append(0)
-    #             else:
-    #                 scan_data.append(scan.ranges[i])
-
-    #         if np.any(np.isnan(np.array(scan_data))):
-    #             scan_data = d 
-    #             raise Exception("it's nan sensor")
-
-    #         self.__step_cache      = self.step
-    #         self.__scan_data_cache = scan_data
-    #         self.force_update      = False       
-    #     print(scan_data)
-    #     return scan_data
-
-
-
 
     
     def get_Odometry(self, odom):
@@ -631,23 +427,37 @@ class Robot(object):
 
         current_distance= self.environment.get_current_Distance(self.robot_position_x,self.robot_position_y)
         heading = self.heading
-        scan_data = self.scan_data
+        scan_data = self.scan_data[0:24]
+        scan_data_laser = self.scan_data[24:48]
         done=False
+        if self.camera1 == True:
+            if ((self.min_range >= min(scan_data_laser) > 0) and (not self.__crashed)) \
+            or ((self.min_range >= min(scan_data_laser) > 0) and (self.__crash_counter>5))  :
+                done = True
+                self.__crashed = True
+                self.__crash_counter = 0
+                self.__process = "collision"
+                self.__coll_count = 0
+            elif (self.min_range >= min(scan_data_laser) > 0) and (self.__crashed):
+                self.__crash_counter += 1
+            elif (self.min_range < min(scan_data_laser)):
+                self.__crashed = False
         # print("i am in state",self.__crash_counter,self.__process,self.__crashed)
-        if ((self.min_range >= min(scan_data) > 0) and (not self.__crashed)) \
-            or ((self.min_range >= min(scan_data) > 0) and (self.__crash_counter>5))  :
-            done = True
-            self.__crashed = True
-            self.__crash_counter = 0
-            self.__process = "collision"
-            self.__coll_count = 0
-        elif (self.min_range >= min(scan_data) > 0) and (self.__crashed):
-             self.__crash_counter += 1
-        elif (self.min_range < min(scan_data)):
-             self.__crashed = False
+        else:
+            if ((self.min_range >= min(scan_data) > 0) and (not self.__crashed)) \
+                or ((self.min_range >= min(scan_data) > 0) and (self.__crash_counter>5))  :
+                done = True
+                self.__crashed = True
+                self.__crash_counter = 0
+                self.__process = "collision"
+                self.__coll_count = 0
+            elif (self.min_range >= min(scan_data) > 0) and (self.__crashed):
+                self.__crash_counter += 1
+            elif (self.min_range < min(scan_data)):
+                self.__crashed = False
 
-        wall_dist = min(self.scan_data)
-        obstacle_angle = np.argmin(self.scan_data)
+        wall_dist = min(self.scan_data[0:24])
+        obstacle_angle = np.argmin(self.scan_data[0:24])
         # print("i am in state",self.__crash_counter,self.__process,self.__crashed)
         goal_heading_initial=self.last_heading[0]
         return scan_data + [heading, current_distance,wall_dist,goal_heading_initial], done
@@ -663,7 +473,7 @@ class Robot(object):
 
     @property
     def status_regions(self):
-        scan_data =self.scan_data
+        scan_data =self.scan_data[0:24]
         regions = {
         'right':  min(scan_data[16:20]),
         'sright':  max(scan_data[15:19]),
@@ -683,7 +493,7 @@ class Robot(object):
         """
           Returns the angles of the laser
         """
-        scan_data = self.scan_data
+        scan_data = self.scan_data[0:24]
         angles = 360./(len(scan_data)-1)*np.arange(len(scan_data))
         angles[angles>180] = angles[angles>180]-360
         return angles
@@ -694,7 +504,7 @@ class Robot(object):
         """
         Calculates the free distance to the goal, using laser information
         """
-        scan_data = np.array(self.scan_data)
+        scan_data = np.array(self.scan_data[0:24])
         sortkey = np.argsort(abs(np.rad2deg(self.heading)-self.laser_angles))[0:3]
 
         return np.min(scan_data[sortkey])
@@ -704,7 +514,7 @@ class Robot(object):
         '''
         Calculates the parallel_angle from the robot to the obstacle
         '''
-        scan_data = np.array(self.scan_data)
+        scan_data = np.array(self.scan_data[0:24])
         scanpairs=[[0,1],[23,0],[1,2],[23,22],[2,3],[21,20],[23,1],[2,22]]
         # scanpairs=[[0,1],[22,23],[1,2],[22,21],[2,3],[21,20],[22,1],[2,21]]
 
