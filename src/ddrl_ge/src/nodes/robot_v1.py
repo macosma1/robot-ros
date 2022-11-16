@@ -387,9 +387,10 @@ class Robot(object):
                 self.__step_cache      = self.step
                 self.__scan_data_cache = scan_data
                 self.force_update      = False   
-                # print("scan", scan_data)
+                print("scan", scan_data)
 
         return scan_data
+
 
     
     def get_Odometry(self, odom):
