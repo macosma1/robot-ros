@@ -9,6 +9,7 @@
 # modified environment variables
 export CMAKE_PREFIX_PATH="/home/macosma1/catkin_ws/devel/.private/catkin_tools_prebuild:$CMAKE_PREFIX_PATH"
 export LD_LIBRARY_PATH='/opt/ros/melodic/lib:/opt/ros/melodic/lib/x86_64-linux-gnu'
+export PATH='/opt/ros/melodic/bin:/home/macosma1/anaconda3/envs/robot/bin:/home/macosma1/anaconda3/condabin:/home/macosma1/.local/bin:/home/macosma1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
 export PKG_CONFIG_PATH='/opt/ros/melodic/lib/pkgconfig'
 export PWD='/home/macosma1/catkin_ws/build/catkin_tools_prebuild'
 export PYTHONPATH='/opt/ros/melodic/lib/python2.7/dist-packages'
